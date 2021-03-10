@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "title": "Test service schema",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["params", "options"],
+    "properties": {
+        "params": {
+            "type": "array",
+            "items": {
+                "type": "number"
+            }
+        },
+        "options": {
+            "type": "object",
+            "additionalProperties": true
+        }
+    }
+}
