@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "kbase-jsonrpc11base"
-version = "0.1.4"
+version = "0.1.5"
 description = "Simple JSON-RPC 1.1 service without transport layer"
 authors = []
 license = "SEE LICENSE IN LICENSE.md"

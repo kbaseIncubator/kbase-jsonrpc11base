@@ -21,7 +21,7 @@ class Schema(object):
 
         self.schema_dir = os.path.abspath(schema_dir)
 
-        self.resolver = RefResolver(f'file://{schema_dir}/refs/', None)
+        self.resolver = RefResolver(f'file://{schema_dir}/', None)
 
         self.schemas = self.load()
 
