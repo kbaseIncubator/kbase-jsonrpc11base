@@ -21,7 +21,7 @@ from jsonrpc11base.errors import (make_standard_jsonrpc_error, make_custom_jsonr
                                   make_jsonrpc_error_response,
                                   InvalidParamsError, JSONRPCError, APIError,
                                   MethodNotFoundError,
-                                  ServerError_ReservedErrorCode, InvalidResultServerError)
+                                  ReservedErrorCodeServerError, InvalidResultServerError)
 from jsonrpc11base.types import (MethodRequest, MethodResult)
 from jsonrpc11base.method import Method
 
@@ -290,7 +290,13 @@ class JSONRPCService(object):
             # Which, sigh, itself may be an error if the app used
             # an error code within the reserved range.
             if -32768 <= e.code <= -32000:
-                err = ServerError_ReservedErrorCode(e.code)
+                err = ReservedErrorCodeServerError(
+                    message=(
+                        'An error code  was issued by the api which conflicts with ',
+                        'the reserved range between -32768 and -3200'
+                    ),
+                    bad_code=e.code
+                )
                 return make_error_response(err.to_json())
             else:
                 return make_error_response(e.to_json())

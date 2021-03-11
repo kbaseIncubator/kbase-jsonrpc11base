@@ -103,55 +103,52 @@ class InternalError(JSONRPCError):
     code = -32603
     message = 'Internal error'
 
-# -32099..-32000 Server error. Reserved for implementation-defined server-errors.
+
+# Server Errors
+# The server may specify any additional errors from -32000 to -32099.
 
 
 class ServerError(JSONRPCError):
-    """Generic server error."""
+    """Implementation defined server error -32000 through -32099"""
     code = -32000
     message = 'Server error'
 
-# Custom Server Errors
-# The server may specify any additional errors from -32002 to -32099.
-# We use -32001 below.
+    def __init__(self, message):
+        self.error = {
+            'message': message
+        }
 
 
-class CustomServerError(JSONRPCError):
-    """Custom server error -32001 through -32099"""
-    pass
-
-
-class ServerError_ReservedErrorCode(CustomServerError):
+class ReservedErrorCodeServerError(ServerError):
     """Generic server error."""
     code = -32001
     message = 'Reserved error code'
 
-    def __init__(self, bad_code):
-        self.error = {
-            'bad_code': bad_code
-        }
+    def __init__(self, message=None, bad_code=None):
+        super().__init__(message)
+        if bad_code is not None:
+            self.error['bad_code'] = bad_code
 
 
-class InvalidResultServerError(CustomServerError):
+class InvalidResultServerError(ServerError):
     """Generic server error."""
     code = -32002
     message = 'Invalid result'
 
     def __init__(self, message=None, path=None, value=None):
-        error = {}
+        super().__init__(message)
         if message is not None:
-            error['message'] = message
+            self.error['message'] = message
         if path is not None:
-            error['path'] = path
+            self.error['path'] = path
         if value is not None:
-            error['value'] = value
-        self.error = error
+            self.error['value'] = value
 
-
-class ServerError_AuthenticationRequired(CustomServerError):
-    """Generic server error."""
-    code = -32003
-    message = 'Authentication required'
+#
+# class ServerError_AuthenticationRequired(CustomServerError):
+#     """Generic server error."""
+#     code = -32003
+#     message = 'Authentication required'
 
 
 # The api may use any error code outside the reserved range -32000 too -32700.
@@ -184,15 +181,6 @@ class APIError(Exception):
 
         return error
 
-
-# class GeneralAPIError(APIError):
-#     """
-#     A general purpose api error class which may be used directly
-#     """
-#     def __init__(self, message=None, error=None, code
-#         self.code = code
-#         self.message = message
-#         self.error = error
 
 def make_standard_jsonrpc_error(code: int,
                                 error: Optional[dict] = None):
