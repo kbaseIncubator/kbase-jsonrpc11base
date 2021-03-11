@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "kbase-jsonrpc11base"
-version = "0.1.5"
+version = "0.1.6"
 description = "Simple JSON-RPC 1.1 service without transport layer"
 authors = []
 license = "SEE LICENSE IN LICENSE.md"
@@ -18,7 +18,7 @@ homepage = "https://github.com/kbaseIncubator/kbase-jsnorpc11base"
 packages = [{ include = "jsonrpc11base" }]
 
 [tool.poetry.dependencies]
-python = "3.7"
+python = "^3.7"
 jsonschema = "3.2.0"
 pyyaml = "5.4.1"
 
