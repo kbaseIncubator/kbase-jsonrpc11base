@@ -124,7 +124,7 @@ class ReservedErrorCodeServerError(ServerError):
     code = -32001
     message = 'Reserved error code'
 
-    def __init__(self, message=None, bad_code=None):
+    def __init__(self, message, bad_code=None):
         super().__init__(message)
         if bad_code is not None:
             self.error['bad_code'] = bad_code
@@ -135,10 +135,8 @@ class InvalidResultServerError(ServerError):
     code = -32002
     message = 'Invalid result'
 
-    def __init__(self, message=None, path=None, value=None):
+    def __init__(self, message, path=None, value=None):
         super().__init__(message)
-        if message is not None:
-            self.error['message'] = message
         if path is not None:
             self.error['path'] = path
         if value is not None:
@@ -151,7 +149,7 @@ class InvalidResultServerError(ServerError):
 #     message = 'Authentication required'
 
 
-# The api may use any error code outside the reserved range -32000 too -32700.
+# The api may use any error code outside the reserved range -32000 too -32768.
 # The api should subclass the APIError exception for each type of
 # error and associate a code with that error.
 
