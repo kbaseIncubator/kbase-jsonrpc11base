@@ -42,18 +42,18 @@ class Validation(object):
         try:
             self.schema.validate(schema_key, data)
         except SchemaError as ex:
-            raise InvalidParamsError(error={
-                'message': ex.message,
-                'path': ex.path,
-                'value': ex.value
-            })
+            raise InvalidParamsError(
+                message=ex.message,
+                path=ex.path,
+                value=ex.value
+            )
 
     def validate_absent_params(self, method_name):
         schema_key = method_name + '.params'
         if self.schema.validate_absent(schema_key) is not True:
-            raise InvalidParamsError(error={
-                'message': 'Params must be provided for this method'
-            })
+            raise InvalidParamsError(
+                message='Params must be provided for this method'
+            )
 
     def validate_result(self, method_name, data):
         schema_key = method_name + '.result'

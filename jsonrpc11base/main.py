@@ -154,9 +154,9 @@ class JSONRPCService(object):
         if validator is not None:
             if validator.has_params_validation(method_name):
                 if params is None:
-                    raise InvalidParamsError({
-                        'message': 'Method has parameters specified, but none were provided'
-                    })
+                    raise InvalidParamsError(
+                        message='Method has parameters specified, but none were provided'
+                    )
                 else:
                     validator.validate_params(method_name, params)
                     return [method.call(params, options), is_system_method]
@@ -165,15 +165,15 @@ class JSONRPCService(object):
                     validator.validate_absent_params(method_name)
                     return [method.call(None, options), is_system_method]
                 else:
-                    raise InvalidParamsError({
-                        'message': ('Method has no parameters specified, '
-                                    'but arguments were provided')
-                    })
+                    raise InvalidParamsError(
+                        message=('Method has no parameters specified, '
+                                 'but arguments were provided')
+                    )
             else:
                 # If validation is provided, all methods must have validation.
-                raise InvalidParamsError({
-                    'message': 'Validation is enabled, but no parameter validator was provided'
-                })
+                raise InvalidParamsError(
+                    message='Validation is enabled, but no parameter validator was provided'
+                )
         else:
             return [method.call(params, options), is_system_method]
 
@@ -236,9 +236,9 @@ class JSONRPCService(object):
 
             if not validator.has_result_validation(method_name):
                 # If validation is provided, all methods must have validation.
-                raise InvalidParamsError({
-                    'message': 'Validation is enabled, but no result validator was provided'
-                })
+                raise InvalidParamsError(
+                    message='Validation is enabled, but no result validator was provided'
+                )
 
             if validator.has_absent_result_validation(method_name):
                 # If the method should have no result, we just set it to null.

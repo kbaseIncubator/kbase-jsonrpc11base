@@ -88,8 +88,14 @@ class InvalidParamsError(JSONRPCError):
     code = -32602
     message = 'Invalid params'
 
-    def __init__(self, error=None):
-        self.error = error
+    def __init__(self, message=None, path=None, value=None):
+        self.error = {}
+        if message is not None:
+            self.error['message'] = message
+        if path is not None:
+            self.error['path'] = path
+        if value is not None:
+            self.error['value'] = value
 
 
 class InternalError(JSONRPCError):
